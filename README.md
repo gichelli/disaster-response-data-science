@@ -2,14 +2,14 @@
 
 ### Table of Contents
 
-- [Description](#Installation)
+- [Summary](#Summary)
 - [FilesDescription](#FilesDescription)
 - [Installation](#Installation)
 - [Application](#Application)
 - [Acknowledgements](#Acknowledgements)
 
 
-## Description <a name="Description"></a>
+## Summary <a name="Summary"></a>
 In this project we are analyzing data provided by [Figure Eight ](https://appen.com/). Thousands of messages that have been sent during natural disasters to either social media or disaster organizations. Our intention is to build a model for an application that classifies the given disaster messages.
 
 We created a machine learning pipeline to categorize the disaster messages. When a person input a message a visual classification of the message gets generated.
@@ -32,7 +32,7 @@ We created a machine learning pipeline to categorize the disaster messages. When
 
 
 ## Installation <a name="Installation"></a>
-Libraries needed:
+Make sure you have the libraries needed.  
 
 Anaconda Distribution of Python
 nltk
@@ -43,6 +43,25 @@ sklearn
 sqlalchemy
 json
 pickle
+
+1. create database
+(in terminal)
+virtualenv app
+cd app
+source bin/activate
+pip install Flask
+cd data
+python process_data.py (this will create the database and save it in this folder)
+
+2. create model
+cd ..
+cd model
+run train_classifier.py (this will create the model)
+
+3. run application
+cd ..
+cd app
+python run.py
 
 
 ## Application <a name="Results"></a>
