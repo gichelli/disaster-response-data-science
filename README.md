@@ -16,19 +16,19 @@ We created a machine learning pipeline to categorize the disaster messages. When
 
 ## FilesDescription <a name="FilesDescription"></a>
 
-- app:
-&nbsp;&nbsp;&nbsp; templates: contains html files
-&nbsp;&nbsp;&nbsp;run.py: file that runs the application in flask
+- app:  
+&nbsp;&nbsp;&nbsp; templates: contains html files  
+&nbsp;&nbsp;&nbsp; run.py: file that runs the application in flask  
 
-- data: contains the two data files that will be used to create the databse and the pythn program that executes the creation of the databse.
-&nbsp;&nbsp;&nbsp; disaster_messages.csv
-&nbsp;&nbsp;&nbsp; disaster-categories.csv
-&nbsp;&nbsp;&nbsp; process_data.py
+- data: contains the two data files that will be used to create the databse and the pythn program that executes the creation of the databse.  
+&nbsp;&nbsp;&nbsp; disaster_messages.csv  
+&nbsp;&nbsp;&nbsp; disaster-categories.csv  
+&nbsp;&nbsp;&nbsp; process_data.py  
 
-- models: python file that executes the creation of the model
-&nbsp;&nbsp;&nbsp; two notebooks to prepare, analyze and visualize the data.
-&nbsp;&nbsp;&nbsp; ETL Pipeline Preparation.ipynb
-&nbsp;&nbsp;&nbsp; ML Pipeline Preparation.ipynb
+- models: python file that executes the creation of the model  
+&nbsp;&nbsp;&nbsp; two notebooks to prepare, analyze and visualize the data.  
+&nbsp;&nbsp;&nbsp; ETL Pipeline Preparation.ipynb  
+&nbsp;&nbsp;&nbsp; ML Pipeline Preparation.ipynb  
 
 
 ## Installation <a name="Installation"></a>
