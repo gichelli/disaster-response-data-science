@@ -1,0 +1,8 @@
+app
+/bin
+/etc
+/lib
+/model/classifier.pkl
+/model/classifier1.pkl
+pyvenv.cfg
+/share
