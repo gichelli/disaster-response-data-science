@@ -15,20 +15,20 @@ In this project we are analyzing data provided by [Figure Eight ](https://appen.
 We created a machine learning pipeline to categorize the disaster messages. When a person input a message a visual classification of the message gets generated.
 
 ## FilesDescription <a name="FilesDescription"></a>
-Folders:
--> app:
--> templates: contains html files
-run.py: file that runs the application in flask
 
--> data: contains the two data files that will be used to create the databse and the pythn program that executes the creation of the databse.
--> disaster_messages.csv
--> disaster-categories.csv
--> process_data.py
+- app:
+&nbsp;&nbsp;&nbsp; templates: contains html files
+&nbsp;&nbsp;&nbsp;run.py: file that runs the application in flask
 
--> models: python file that executes the creation of the model
--> two notebooks to prepare, analyze and visualize the data.
--> ETL Pipeline Preparation.ipynb
--> ML Pipeline Preparation.ipynb
+- data: contains the two data files that will be used to create the databse and the pythn program that executes the creation of the databse.
+&nbsp;&nbsp;&nbsp; disaster_messages.csv
+&nbsp;&nbsp;&nbsp; disaster-categories.csv
+&nbsp;&nbsp;&nbsp; process_data.py
+
+- models: python file that executes the creation of the model
+&nbsp;&nbsp;&nbsp; two notebooks to prepare, analyze and visualize the data.
+&nbsp;&nbsp;&nbsp; ETL Pipeline Preparation.ipynb
+&nbsp;&nbsp;&nbsp; ML Pipeline Preparation.ipynb
 
 
 ## Installation <a name="Installation"></a>
