@@ -44,24 +44,26 @@ sqlalchemy
 json
 pickle
 
-1. create database
-(in terminal)
-virtualenv app
-cd app
-source bin/activate
-pip install Flask
-cd data
-python process_data.py (this will create the database and save it in this folder)
+1. create database  
+(in terminal)  
+virtualenv app  
+cd app  
+source bin/activate  
+pip install Flask  
+cd data  
+python process_data.py (this will create the database and save it in this folder)  
 
-2. create model
-cd ..
-cd model
-run train_classifier.py (this will create the model)
+2. create model  
+cd ..  
+cd model  
+run train_classifier.py (this will create the model)  
 
-3. run application
-cd ..
-cd app
-python run.py
+3. run application  
+cd ..  
+cd app  
+python run.py  
+
+in the url type: http://localhost:8000/  
 
 
 ## Application <a name="Results"></a>
