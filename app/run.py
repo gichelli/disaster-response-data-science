@@ -3,61 +3,30 @@ import sys
 import json
 import plotly
 import pandas as pd
-
+import plotly
+import plotly.graph_objs as go
+import json, plotly
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
-
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
-# from sklearn.externals import joblib
 import joblib
 from sqlalchemy import create_engine
-
-# from sklearn.model_selection import train_test_split
-# from sqlalchemy import create_engine
-# import pandas as pd
-# from sklearn.pipeline import Pipeline
-# from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-# from sklearn.ensemble import RandomForestClassifier
-# from nltk.tokenize import word_tokenize
-# from nltk.stem import WordNetLemmatizer
-# import nltk
-# import json
-# import plotly
-# import pandas as pd
-
-# from nltk.stem import WordNetLemmatizer
-# from nltk.tokenize import word_tokenize
-
-# from flask import Flask
-# from flask import render_template, request, jsonify
-# from plotly.graph_objs import Bar
-# # from sklearn.externals import joblib
-# # import sklearn.external.joblib as extjoblib
-# import joblib
-# from sqlalchemy import create_engine
-# nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
-# import pickle
-# import re
-# import numpy as np
-# import pandas as pd
-# from nltk.tokenize import word_tokenize
-# from nltk.stem import WordNetLemmatizer
-# import flask
-# from sklearn.metrics import confusion_matrix
-# from sklearn.model_selection import GridSearchCV
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.model_selection import train_test_split
-# from sklearn.pipeline import Pipeline, FeatureUnion
-# from sklearn.base import BaseEstimator, TransformerMixin
-# from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-
+import plotly.graph_objs as goes
 
 
 app = Flask(__name__)
+#give name to your database
+database = "DisasterResponse"
 
+#method to separate text into words
 def tokenize(text):
+    '''
+    input:
+    text - string that needs to be tokenized
+    outout:
+    tokenized text
+    '''
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -68,62 +37,123 @@ def tokenize(text):
 
     return clean_tokens
 
+engine = create_engine('sqlite:///../data/' + database + '.db')
+df = pd.read_sql_table(database, engine)
 
-
-# load data
-engine = create_engine('sqlite:///../data/disaster-responses.db')
-df = pd.read_sql_table('disaster-responses', engine)
-
-print("pass1")
 # load model
 model = joblib.load("../model/classifier.pkl")
 
-print("pass2")
+def return_figures():
+    """Creates four plotly visualizations
+    Args:
+        None
+
+    Returns:
+        list (dict): list containing the four plotly visualizations
+
+    """
+    engine = create_engine('sqlite:///../data/' + database + '.db')
+    df = pd.read_sql_table(database, engine)
+    
+    graph_one = []
 
 
-# def getnames(query):
-#     print(query)
-#     # use model to predict classification for query
-#     classification_labels = model.predict([query])[0]
-#     # classification_results = dict(zip(df.columns[4:], classification_labels))
-#     print(classification_labels)
+    df_new = df.iloc[:, 3:]
+    category_names = df_new.columns
+    df_new = df_new.mean()
+    df_new.sort_values(ascending=True)
+
+    graph_one.append(
+        goes.Bar(
+            x = category_names.tolist(),
+            y = df_new.tolist(),
+        )
+    )
+
+    layout_one = dict(title = 'Disaster Responses Popularity',
+            xaxis = dict(title = 'Disaster Categories',),
+            yaxis = dict(title = 'Ammount'),
+            )
 
 
+    # third chart plots percent of messages by types
+    graph_two = []
 
+    category_type_cols =['Natural Disasters','Supplies','People and Security','Infraestructure','Health and Aid']
+    category_type = []
 
-print("pass1")
+    nd_df = df.iloc[:, 3:]
+    #natural disasters
+    nd_df.drop(nd_df.columns.difference(['floods', 'storm', 'fire', 'earthquake']), 1, inplace = True)
+    category_type.append(sum(nd_df.mean()))
+ 
+    #supplies
+    sdf = df.iloc[:, 3:]
+    sdf.drop(sdf.columns.difference(['request','tools','transport','food','shelter','clothing' ,'money','water','medical_products']), 1, inplace=True)
+    category_type.append(sum(sdf.mean()))
+
+    #people and security
+    psdf = df.iloc[:, 3:]
+    psdf.drop(psdf.columns.difference(['offer ','search_and_rescue' ,'security' ,'military' ,'child_alone', 'missing_people' ,'refugees']), 1, inplace=True)
+    category_type.append(sum(psdf.mean()))
+
+    #infraestructure
+    idf = df.iloc[:, 3:]
+    idf.drop(idf.columns.difference(['infrastructure_related' ,'buildings' ,'electricity' ,'shops', 'other_infrastructure']), 1, inplace=True)
+    category_type.append(sum(idf.mean()))
+
+    #health and aid
+    hdf = df.iloc[:, 3:]
+    hdf.drop(hdf.columns.difference(['medical_help','death','aid_related','hospitals','aid_centers' ,'other_aid','direct_report'  ]), 1, inplace=True)
+    category_type.append(sum(hdf.mean()))
+
+    genre_counts = df.groupby('genre').count()['message']
+    genre_names = list(genre_counts.index)
+
+    graph_two.append(
+        goes.Bar(
+            x = category_type_cols,
+            y = category_type,
+        )
+    )
+    layout_two = dict(title = 'Percentage of Disaster Messages by Types',
+        xaxis = dict(title = 'Categories',),
+        yaxis = dict(title = 'Count'),
+        )
+
+    graph_three = []
+
+    genre_counts = df.groupby('genre').count()['message']
+    genre_names = list(genre_counts.index)
+
+    graph_three.append(
+        goes.Bar(
+            x = list(genre_counts.index),
+            y = df.groupby('genre').count()['message'],
+        )
+    )
+    
+    layout_three = dict(title = 'Distribution of Message Genres',
+        xaxis = dict(title = 'Genre',),
+        yaxis = dict(title = 'Count'),
+        )
+       
+    # append all charts to the graphs list
+    figures = []
+    figures.append(dict(data=graph_one, layout=layout_one))
+    figures.append(dict(data=graph_two, layout=layout_two))
+    figures.append(dict(data=graph_three, layout=layout_three))
+    # figures.append(dict(data=graph_four, layout=layout_four))
+    # figures.append(dict(data=graph_five, layout=layout_five))
+
+    return figures
+
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
-    
-    # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
-    
-    # create visuals
-    # TODO: Below is an example - modify to create your own visuals
-    graphs = [
-        {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
 
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
-                }
-            }
-        }
-    ]
+    graphs = return_figures()
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
@@ -132,15 +162,11 @@ def index():
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
 
-
-
-
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
     # save user input in query
     query = request.args.get('query', '')
-    # getnames(query)
 
     # use model to predict classification for query
     classification_labels = model.predict([query])[0]
@@ -151,15 +177,11 @@ def go():
         'go.html',
         query=query,
         
-        classification_result=classification_results
-        
-        
+        classification_result=classification_results          
     )
-
 
 def main():
     app.run(port=8000, debug=True)
-
 
 if __name__ == '__main__':
     main()
