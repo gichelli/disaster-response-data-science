@@ -1,5 +1,7 @@
 # disaster-response-data-science
 
+![](graphs.png)
+
 ### Table of Contents
 
 - [Summary](#Summary)
@@ -43,6 +45,7 @@ sklearn
 sqlalchemy
 json
 pickle
+sqlite3
 
 1. create database  
 (in terminal)  
@@ -56,14 +59,14 @@ python process_data.py (this will create the database and save it in this folder
 2. create model  
 cd ..  
 cd model  
-run train_classifier.py (this will create the model)  
+run train_classifier.py databasename modelname (this will create the model)  
 
 3. run application  
 cd ..  
 cd app  
 python run.py  
 
-in the url type: http://localhost:8000/  
+In the url type: http://localhost:8000/  
 
 
 ## Application <a name="Results"></a>
