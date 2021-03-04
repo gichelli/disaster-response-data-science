@@ -57,7 +57,6 @@ def return_figures():
     
     graph_one = []
 
-
     df_new = df.iloc[:, 3:]
     category_names = df_new.columns
     df_new = df_new.mean()
@@ -74,7 +73,6 @@ def return_figures():
             xaxis = dict(title = 'Disaster Categories',),
             yaxis = dict(title = 'Ammount'),
             )
-
 
     # third chart plots percent of messages by types
     graph_two = []
