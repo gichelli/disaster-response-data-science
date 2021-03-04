@@ -80,14 +80,21 @@ def build_model():
             ('tfidf', TfidfTransformer())
         ])),
     ])),
-        ('clf', RandomForestClassifier())
+        ('clf', multioutput.MultiOutputClassifier(RandomForestClassifier( random_state=0)))
     ])
-    # parameters = { 
-    # 'clf__estimator__n_estimators': [12]
-    # # 'clf__estimator__max_features': ['auto']
-    # }
-    # cv = GridSearchCV(pipeline, param_grid = parameters)
-    return pipeline
+    #   'features__text_pipeline__vect__ngram_range': ((1, 1), (1, 2)),
+    #   'features__text_pipeline__vect__max_df': (0.5, 1.0),
+    #   'features__text_pipeline__vect__max_features': (None, 500),
+    #   'features__text_pipeline__tfidf__use_idf': (True, False),
+        'clf__estimator__n_estimators': [20],
+        'clf__estimator__min_samples_split': [2, 3]
+    #   'clf__estimator__max_depth': [3]
+    #   'clf__estimator__features__n_jobs': [2]
+    #   'clf__estimator__max_features': (None, 5000)
+    #   'clf__estimator__max_features': [None, 5000]
+    #   'clf__estimator__bootstrap': [True]    
+    cv = GridSearchCV(pipeline, param_grid = parameters)
+    return cv
     
 
 def evaluate_model(model, X_test, Y_test, category_names):
