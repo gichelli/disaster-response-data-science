@@ -70,7 +70,7 @@ In the url type: http://localhost:8000/
 
 
 ## Application <a name="Results"></a>
-The main findings of the code can be found at the post available [here](https://gichellivento.medium.com/i-used-a-simple-data-file-to-get-my-boston-apartment-in-airbnb-943669d49e78).
+The main findings of the code can be found at the post available [here]()(In construction).
 
  
 ## Acknowledgements <a name="Acknowledgements"></a>
